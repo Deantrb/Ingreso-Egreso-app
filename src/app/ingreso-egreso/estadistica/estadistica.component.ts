@@ -1,15 +1,15 @@
-import {Component, OnInit, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
-import {AppState} from "../../app.reducer";
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {IngresoEgreso} from "../../models/ingreso-egreso.model";
 import * as echarts from 'echarts';
+import { AppStateWithIngreso } from '../ingreso-egreso.reducer';
 
 @Component({
   selector: 'app-estadistica',
   templateUrl: './estadistica.component.html',
   styles: ``
 })
-export class EstadisticaComponent implements OnInit, AfterViewInit {
+export class EstadisticaComponent implements OnInit {
   @ViewChild('chartContainer', {static: true}) chartContainer!: ElementRef;
 
 
@@ -60,7 +60,7 @@ export class EstadisticaComponent implements OnInit, AfterViewInit {
     ]
   };
 
-  constructor(private store: Store<AppState>, private el: ElementRef) {
+  constructor(private store: Store<AppStateWithIngreso>, private el: ElementRef) {
   }
 
 
@@ -69,16 +69,13 @@ export class EstadisticaComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      const chartContainer = document.getElementById('chartContainer');
-      const chart = echarts.init(chartContainer);
-      chart.setOption(this.echartOptions);
-
-    }, 1000)
-  }
-
   generarEstadistica(items: IngresoEgreso[]) {
+
+    this.totalEgresos = 0
+    this.totalIngresos = 0
+    this.ingresos = 0
+    this.egresos = 0
+
     for (const item of items) {
       if (item.tipo === 'ingreso') {
         this.totalIngresos += item.monto
@@ -89,5 +86,11 @@ export class EstadisticaComponent implements OnInit, AfterViewInit {
       }
     }
     this.echartOptions.series[0].data=[ {value: this.totalIngresos, name: 'Ingreso'}, {value: this.totalEgresos, name: 'Egreso'},]
+    setTimeout(() => {
+      const chartContainer = document.getElementById('chartContainer');
+      const chart = echarts.init(chartContainer);
+      chart.setOption(this.echartOptions);
+
+    }, 1000)
   }
 }

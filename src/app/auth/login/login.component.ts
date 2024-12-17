@@ -40,12 +40,6 @@ export class LoginComponent  implements OnInit, OnDestroy {
 
     this.store.dispatch(ui.isLoading())
 
-    // Swal.fire({
-    //   title: 'Espere un momento...',
-    //   didOpen:() => {
-    //     Swal.showLoading();
-    //   }
-    // });
     const { email, password } = this.loginGroup.value;
     this.auth
       .loginUser(email, password)
@@ -53,8 +47,8 @@ export class LoginComponent  implements OnInit, OnDestroy {
         setTimeout(() => {
           // Swal.close()
           this.store.dispatch(ui.stopLoading())
-          this.router.navigate(['/']);
-        }, 4000);
+          this.router.navigate(['/dashboard']);
+        }, 2000);
 
       })
       .catch((err) => {
