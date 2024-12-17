@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {appReducers} from "./app.reducer";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { OrdenIngresoPipe } from './pipes/orden-ingreso.pipe';
 
 
 
@@ -39,7 +40,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    OrdenIngresoPipe
   ],
   imports: [
     BrowserModule,
